@@ -64,7 +64,7 @@ jobs:
           path: .
       - name: Build Docker
         run: bash ci/build-docker.sh
-      - name: Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner on frontend
         uses: aquasecurity/trivy-action@0.32.0
         with:
           image-ref: 'ghcr.io/andreas528/simple-fortune-cookie/frontend:latest'
@@ -73,6 +73,17 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
+      - name: Run Trivy vulnerability scanner on backend
+        uses: aquasecurity/trivy-action@0.32.0
+        with:
+          image-ref: 'ghcr.io/andreas528/simple-fortune-cookie/backend:latest'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      - name: Check image location
+        run: cd ./var/lib/docker
       - name: Push Docker
         run: bash ci/push-docker.sh
 
