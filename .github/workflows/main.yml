@@ -6,10 +6,9 @@ jobs:
     steps:
       - name: build
         uses: actions/checkout@v4
-      - run: pwd
-      - run: ls
-      - run: cd frontend
-      - run: go build
+      - run: |
+            cd frontend
+            go build
       - name: upload code
         uses: actions/upload-artifact@v4
         with: 
