@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+[[ -z "${GIT_COMMIT}" ]] && Tag='local' || Tag="${GIT_COMMIT::8}" 
+REPO="ghcr.io/$docker_username/simple-fortune-cookie/"
+echo "${REPO}"
+docker build -t "${REPO}frontend:latest" -t "${REPO}frontend:1.0-$Tag" ./frontend
+docker build -t "${REPO}backend:latest" -t "${REPO}backend:1.0-$Tag" ./backend
