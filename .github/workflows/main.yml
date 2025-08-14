@@ -3,6 +3,7 @@ on: [push, workflow_dispatch]
 env:
   docker_username: ci-server
   docker_password: ${{ secrets.GITHUB_TOKEN }}
+  GIT_COMMIT: ${{ github.sha }}
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -45,21 +46,8 @@ jobs:
           name: code
           path: .
       - name: Build Docker backend
-        run: |
-          cd backend
-          bash ../ci/build-docker.sh
+        run: bash ci/build-docker.sh
       - name: Push Docker backend
-        run: |
-          cd backend
-          bash ../ci/push-docker.sh
-          
-      - name: Build Docker frontend
-        run: |
-          cd frontend
-          bash ../ci/build-docker.sh
-      - name: Push Docker frontend
-        run: |
-          cd frontend
-          bash ../ci/push-docker.sh
+        run: bash ci/push-docker.sh
         
         
