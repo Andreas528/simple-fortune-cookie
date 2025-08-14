@@ -65,12 +65,12 @@ jobs:
       - name: Build Docker
         run: bash ci/build-docker.sh
       - name: Check temp filesystem
-        run: ls
+        run: ls ./images
       - name: Upload image
         uses: actions/upload-artifact@v4
         with:
           name: frontend
-          path: ${{ runner.temp }}/frontend.tar
+          path: ${{ runner.temp }}/images/frontend.tar
       - name: Run Trivy vulnerability scanner on frontend
         uses: aquasecurity/trivy-action@0.32.0
         with:
