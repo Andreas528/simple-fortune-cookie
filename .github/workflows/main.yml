@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: build
         uses: actions/checkout@v4
+      - run: pwd
+      - run: ls
       - run: cd frontend
       - run: go build
       - name: upload code
