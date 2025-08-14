@@ -1,7 +1,7 @@
 name: CICD pipeline
 on: [push, workflow_dispatch]
 env:
-  docker_username: madsando
+  docker_username: andreas528
   docker_password: ${{ secrets.GITHUB_TOKEN }}
   GIT_COMMIT: ${{ github.sha }}
 jobs:
