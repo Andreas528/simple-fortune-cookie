@@ -20,6 +20,7 @@ jobs:
           name: code
           path: .
           include-hidden-files: true
+  
   Testing:
     runs-on: ubuntu-latest
     needs: [Build]
@@ -34,9 +35,25 @@ jobs:
             cd frontend
             go test
 
+  Linting:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    steps:
+      - name: Download code
+        uses: actions/download-artifact@v5
+        with: 
+          name: Code
+          path: .
+      - name: Linting
+        uses: super-linter/super-linter/slim@v8
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERRORS: true
+
   Docker-image:
     runs-on: ubuntu-latest
-    needs: [Testing]
+    needs: [Testing, Linting]
     permissions:
       packages: write
     steps:
