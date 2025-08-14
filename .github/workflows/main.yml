@@ -47,19 +47,19 @@ jobs:
       - name: Build Docker backend
         run: |
           cd backend
-          bash ci/build-docker.sh
+          bash ../ci/build-docker.sh
       - name: Push Docker backend
         run: |
           cd backend
-          bash ci/push-docker.sh
+          bash ../ci/push-docker.sh
           
       - name: Build Docker frontend
         run: |
           cd frontend
-          bash ci/build-docker.sh
+          bash ../ci/build-docker.sh
       - name: Push Docker frontend
         run: |
           cd frontend
-          bash ci/push-docker.sh
+          bash ../ci/push-docker.sh
         
         
