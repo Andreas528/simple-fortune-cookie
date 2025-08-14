@@ -1,7 +1,7 @@
 name: CICD pipeline
 on: [push, workflow_dispatch]
 env:
-  docker_username: ci-server
+  docker_username: madsando
   docker_password: ${{ secrets.GITHUB_TOKEN }}
   GIT_COMMIT: ${{ github.sha }}
 jobs:
@@ -45,9 +45,9 @@ jobs:
         with:
           name: code
           path: .
-      - name: Build Docker backend
+      - name: Build Docker
         run: bash ci/build-docker.sh
-      - name: Push Docker backend
+      - name: Push Docker
         run: bash ci/push-docker.sh
         
         
