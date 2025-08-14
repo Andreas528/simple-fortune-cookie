@@ -17,4 +17,7 @@ spec:
       containers:
         - image: ghcr.io/andreas528/simple-fortune-cookie/backend:latest
           name: backend
+          envFrom:
+            - configMapRef:
+                name: backend-config
       restartPolicy: Always
