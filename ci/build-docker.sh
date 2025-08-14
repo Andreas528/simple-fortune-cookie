@@ -3,4 +3,5 @@ set -e
 [[ -z "${GIT_COMMIT}" ]] && Tag='local' || Tag="${GIT_COMMIT::8}" 
 REPO="ghcr.io/$docker_username/"
 echo "${REPO}"
-docker build -t "${REPO}micronaut-app:latest" -t "${REPO}micronaut-app:1.0-$Tag" app/
+docker build -t "${REPO}frontend:latest" -t "${REPO}frontend:1.0-$Tag" /frontend
+docker build -t "${REPO}backend:latest" -t "${REPO}backend:1.0-$Tag" /backend
