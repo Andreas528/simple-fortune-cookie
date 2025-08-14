@@ -1,0 +1,28 @@
+name: CICD pipeline
+on: [push, workflow_dispatch]
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: build
+        uses: actions/checkout@v4
+      - run: go build ./frontend
+      - name: upload code
+        uses: actions/upload-artifact@v4
+        with: 
+          name: Code
+          path: .
+          include-hidden-files: true
+  Testing:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    steps:
+      - name: download code
+        uses: actions/download-artifact@v5
+        with:
+          name: Code
+          path: .
+      - name: Run test
+        uses: actions/checkout@v4
+      - run: go test
+        
