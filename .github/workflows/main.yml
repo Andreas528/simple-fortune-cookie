@@ -64,11 +64,13 @@ jobs:
           path: .
       - name: Build Docker
         run: bash ci/build-docker.sh
+      - name: Check temp filesystem
+        run: ls
       - name: Upload image
         uses: actions/upload-artifact@v4
         with:
-          name: ghcr.io/andreas528/simple-fortune-cookie/frontend
-          path: ${{ runner.temp }}/ghcr.io/andreas528/simple-fortune-cookie/frontend.tar
+          name: frontend
+          path: ${{ runner.temp }}/frontend.tar
       - name: Run Trivy vulnerability scanner on frontend
         uses: aquasecurity/trivy-action@0.32.0
         with:
