@@ -47,7 +47,6 @@ jobs:
       - name: Linting
         uses: super-linter/super-linter/slim@v8
         env:
-          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: true
 
