@@ -62,7 +62,6 @@ jobs:
       - name: Deploy on Kubernetes
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
-          cd kubernetes
-          kubectl --kubeconfig kubeconfig apply -f .
+          kubectl --kubeconfig kubeconfig apply -f ./kubernetes
         
         
