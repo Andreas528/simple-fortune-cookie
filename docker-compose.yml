@@ -1,16 +1,22 @@
 services:
   frontend:
     container_name: frontend
-    build: ./frontend
+    image: ghcr.io/andreas528/simple-fortune-cookie/frontend:latest
     ports:
     - 8080:8080
     environment:
       BACKEND_PORT: 9000
-      BACKEND_DNS: localhost
+      BACKEND_DNS: backend
   backend:
     container_name: backend
-    build: ./backend
+    depends_on:
+      - redis
+    image: ghcr.io/andreas528/simple-fortune-cookie/backend:latest
     environment:
       REDIS_DNS: redis
+  
+  redis:
+    container_name: redis
+    image: docker.io/library/redis:8.2
       
 
