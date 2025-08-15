@@ -1,5 +1,12 @@
 name: CICD pipeline
-on: [push, workflow_dispatch]
+on:
+  push:
+  pull_request:
+    branches: 
+      - main
+  workflow_dispatch:
+
+    
 env:
   docker_username: andreas528
   docker_password: ${{ secrets.GITHUB_TOKEN }}
