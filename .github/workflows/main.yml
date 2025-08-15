@@ -1,5 +1,8 @@
 name: CICD pipeline
-on: [push, workflow_dispatch]
+on:
+  push:
+  workflow_dispatch:
+  
 env:
   docker_username: andreas528
   docker_password: ${{ secrets.GITHUB_TOKEN }}
@@ -67,9 +70,36 @@ jobs:
       - name: Push Docker
         run: bash ci/push-docker.sh
 
+  Security-Scan:
+    runs-on: ubuntu-latest
+    needs: [Docker-image]
+    steps:
+      - name: Find Docker image tag
+        id: short-sha-finder
+        run: echo ${{ github.sha }} | { var=$(cat); echo "SHORT_SHA=${var::8}"; } >> "$GITHUB_OUTPUT"
+      - name: Run Trivy vulnerability scanner on frontend
+        uses: aquasecurity/trivy-action@0.32.0
+        with:
+          image-ref: 'ghcr.io/andreas528/simple-fortune-cookie/frontend:1.0-${{ steps.short-sha-finder.outputs.SHORT_SHA }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      - name: Run Trivy vulnerability scanner on backend
+        uses: aquasecurity/trivy-action@0.32.0
+        with:
+          image-ref: 'ghcr.io/andreas528/simple-fortune-cookie/frontend:1.0-${{ steps.short-sha-finder.outputs.SHORT_SHA }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+  
+  
   Deploy:
     runs-on: ubuntu-latest
-    needs: [Functional-test, Linting]
+    needs: [Functional-test, Linting, Security-Scan]
     steps:
       - name: Download code
         uses: actions/download-artifact@v4
